@@ -65,6 +65,27 @@
             }
             if(contador % 60 === 0){
                 media = soma / (bufferLength * 60);
+                if(media < 0.988){
+                    media = "azul";
+                }
+                else{
+                    if(media < 0.996){
+                        media = "verde";
+                    }
+                    else{
+                        if(media < 1.004){
+                            media = "laranja";
+                        }
+                        else{
+                            if(media < 1.012){
+                                media = "vermelho";
+                            }
+                            else{
+                                media = "amarelo";
+                            }
+                        }
+                    }
+                }
                 console.log(media);
                 soma = 0;
                 media = 0;
