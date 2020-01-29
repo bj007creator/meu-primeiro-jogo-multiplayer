@@ -9,7 +9,7 @@
 </head>
 <body>
     <audio controls>
-        <source src="./90sFlav - Call me.mp3">
+        <source src="./Você não ama ninguém 2 - Cesar Mc _ Luccas Carlos _ Chris _ Xamã (Prod. Malak).mp3">
     </audio>
     <canvas width="600" height="150"></canvas>
 
@@ -32,6 +32,11 @@
         let contador = 0;
         let soma = 0;
         let media = 0;
+        let musicArray = new Array;
+        let cifras = {
+            colors : new Array,
+            slideTemp : new Array
+        }
         var w = canvas.width;
         var h = canvas.height;
         var sliceWidth = w * 1.0 / bufferLength;
@@ -50,7 +55,7 @@
             canvasCtx.beginPath();
 
             var x = 0;
-            let arranjoTeste = new Array;
+
             
             for(var i = 0; i < bufferLength; i++) {
                 var v = dataArray[i] / 128.0;
@@ -86,11 +91,37 @@
                         }
                     }
                 }
+                musicArray.push(media);
                 console.log(media);
                 soma = 0;
                 media = 0;
             }
             contador++;
+            
+            if(contador === (audio.duration * 60) ){
+                let cont = 0;
+                let j = 0;
+                let { colors, slideTemp } = cifras;
+                for(let i in musicArray){
+                    let note = musicArray[i];
+                    j = i;
+                    cont = 0;
+                    while(note === musicArray[j] && (j + 1) < musicArray.length ){
+                        j++;
+                        cont++;
+                    }
+                    
+                    let denominador = 5;
+                    let quantRepeat = 1;
+                    while(cont != 1 && cont != 2 && cont != 3 && cont != 4 && cont != 5){
+                        cont % denominador === 0 ? quantRepeat = cont / denominador : denominador--;
+                    }
+                    for(let aux = 0; aux < quantRepeat; aux++){
+                        colors.push(musicArray[i]);
+                        slideTemp.push(denominador);
+                    }
+                }
+            }
             
             canvasCtx.lineTo(canvas.width, canvas.height/2);
             canvasCtx.stroke();
