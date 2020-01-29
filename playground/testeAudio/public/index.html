@@ -9,7 +9,7 @@
 </head>
 <body>
     <audio controls>
-        <source src="./Sleep Away.mp3">
+        <source src="./90sFlav - Call me.mp3">
     </audio>
     <canvas width="600" height="150"></canvas>
 
@@ -29,6 +29,9 @@
         var bufferLength = analyser.fftSize;
         var dataArray = new Uint8Array(bufferLength);
 
+        let contador = 0;
+        let soma = 0;
+        let media = 0;
         var w = canvas.width;
         var h = canvas.height;
         var sliceWidth = w * 1.0 / bufferLength;
@@ -42,15 +45,16 @@
             
             requestAnimationFrame(draw);
             analyser.getByteTimeDomainData(dataArray);
-            console.log(dataArray);
 
             canvasCtx.fillRect(0, 0, w, h);
             canvasCtx.beginPath();
 
             var x = 0;
+            let arranjoTeste = new Array;
             
             for(var i = 0; i < bufferLength; i++) {
                 var v = dataArray[i] / 128.0;
+                soma += v;
                 var y = v * h/2;
                 if(i === 0) {
                     canvasCtx.moveTo(x, y);
@@ -59,6 +63,14 @@
                 }
                 x += sliceWidth;
             }
+            if(contador % 60 === 0){
+                media = soma / (bufferLength * 60);
+                console.log(media);
+                soma = 0;
+                media = 0;
+            }
+            contador++;
+            
             canvasCtx.lineTo(canvas.width, canvas.height/2);
             canvasCtx.stroke();
         };
